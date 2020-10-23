@@ -1,0 +1,232 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<title>SNAKE GAME</title>
+ <style>
+
+        h1 {
+            margin-top: 8%;
+            color: rgb(83, 238, 36);
+
+        }
+
+        h3 {
+            color: rgb(190, 187, 187);
+        }
+
+       
+
+        a {
+            color: rgb(117, 117, 117);
+        }
+
+        button {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: transparent !important;
+            border-color: rgb(155, 156, 155) !important;
+            color: rgb(155, 156, 155) !important;
+            font-size: 8px !important;
+            padding: 3px !important;
+        }
+
+        button:hover {
+            border-color: rgb(68, 241, 68) !important;
+            color: rgb(194, 196, 194) !important;
+        }
+
+
+        canvas  {
+            margin-top: 0%;
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            border: 2px;
+            border-style: solid;
+            border-color: #535353;
+        }
+    </style>
+   <body bgcolor="black">
+    <h1 class="text-center" align="center">Snake</h1>
+    <canvas id="gc" width="400" height="400"></canvas>
+    <audio id="akabin" src="muzik.mp3" loop="true" autoplay="true"></audio>
+<script type="text/javascript">
+    var akabinses = document.getElementById("akabin");
+    akabinses.volume = 0.04;
+</script>
+    <div align="center">
+
+
+    <h3 id="score" class="text-center">Score: 0</h3>
+    <br>
+    <h3 id="high-score" class="text-center">High Score: 0</h6>
+    <br>
+    	  <button id="instructions-btn" class="btn btn-info">How To Play</button>
+   
+  </font>
+          
+       
+            
+
+<script>
+    /*Original Code Credits: Chris DeLeon of HomeTeam GameDev 
+         Modified by: Berk TUNA */
+ 
+window.onload=function(){
+	canv=document.getElementById("gc");
+	ctx=canv.getContext("2d");
+	document.addEventListener("keydown",keyPush);
+	setInterval(game,60);   
+  let instructionsBtn = document.getElementById("instructions-btn");
+  instructionsBtn.addEventListener("click", showInstructions) 
+
+}
+let highScore = 1;
+let score=0;
+let kontrol;
+
+px=py=10;
+gs=tc=20;
+ax=ay=10;
+xv=yv=0;
+trail=[3];
+tail = 1;
+function showInstructions() {
+            window.alert("Use the arrow keys to move and play.Enjoy!")
+        }
+
+ function updateScore(newScore) {
+            document.getElementById("score").innerHTML = "Score: " + String(newScore);
+            if (newScore > highScore) {
+                document.getElementById("high-score").innerHTML = "High Score: " + String(newScore);
+                highScore = newScore;
+            }
+        }
+function game(){
+  px+=xv;
+  py+=yv;
+  if(px<0) {
+      px= tc-1;
+  }
+  if(px>tc-1){
+      px= 0;
+  }
+  if(py<0){
+      py= tc-1;
+  }
+  if(py>tc-1){
+      py= 0;
+  }
+  ctx.fillStyle="black";
+  ctx.fillRect(0,0,canv.width,canv.height);
+  ctx.fillStyle="GREEN";
+
+  
+
+
+  for(var i=0; i<trail.length;i++) {
+  	ctx.fillRect(trail[i].x*gs,trail[i].y*gs,gs-1,gs-1);
+  	if (trail[i].x==px && trail[i].y==py) {
+  		tail = 3 ;
+  		stopGame();
+      score=0;
+
+
+  	}
+   
+
+  }
+
+trail.push({x:px,y:py});
+while(trail.length>tail){
+	trail.shift();
+}
+  	if (ax==px && ay==py) {
+  		tail++;
+      score++;
+  		ax=Math.floor(Math.random()*tc);
+  		ay=Math.floor(Math.random()*tc);
+      
+  	}
+  	  ctx.fillStyle="RED";
+      ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+updateScore(score)
+  }
+  function stopGame(){
+  	if(tail == 3 && gs==20 && tc==20 && xv==0 && yv==0 && px==10 && py==10)
+  	{
+
+  	}
+  	else
+  	{
+  		alert(`Game over, Score: ${score}`);
+  	    px=py=10;
+        gs=tc=20;
+        xv=0;yv=0;
+  }
+
+  	
+  	
+
+ }
+
+function keyPush(evt){
+	
+	switch(evt.keyCode) {
+		
+		case 37: //sol
+		
+    if(kontrol!=3)
+    {
+      xv=-1;yv=0;
+kontrol=1;
+    }
+
+
+		break;
+  
+		case 38: //yukarı
+    
+    if(kontrol!=4)
+    {
+      xv=0;yv=-1;
+kontrol=2;
+    }
+		
+    
+		break;
+
+		case 39: //sag
+   
+     if(kontrol!=1)
+    {
+      xv=1;yv=0;
+      kontrol=3;
+    }
+		
+     
+		break;
+
+		case 40: //asagi
+   
+    if(kontrol!=2)
+    {
+      xv=0;yv=1;
+      kontrol=4;
+    }
+     
+		
+		break;
+		
+	}
+} 
+
+</script>
+</div>
+ </body>
+</html>
